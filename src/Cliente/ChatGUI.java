@@ -20,13 +20,11 @@ public class ChatGUI extends JFrame {
     private JTextArea chatArea;
     private JList userList;
     private JScrollPane chatScrollPane;
-    private JScrollPane chatScrollPanel;
     private String user;
     private List<String> conectedUsers = new LinkedList<>();
     private Vector<String> ve;
     private MulticastSocket clientSocket;
     private InetAddress grupo;
-    private boolean firstTime = true;
 
     public ChatGUI(String user) {
 
@@ -68,17 +66,17 @@ public class ChatGUI extends JFrame {
                         String partes[] = mensajeFormateado.split("\\|");
                         String comandoSpliteado[] = partes[0].split(",");
                         if(comandoSpliteado[0].equalsIgnoreCase("cuser")){
-                            conectedUsers.add(comandoSpliteado[1]);
-                            actualizarListaUsuarios();
-                            actualizarChat(partes[1]);
+                            if(!conectedUsers.contains(comandoSpliteado[1])){
+                                conectedUsers.add(comandoSpliteado[1]);
+                                actualizarListaUsuarios();
+                                actualizarChat(partes[1]);
+                            }else{
+                                actualizarChat(partes[1]);
+                            }
                         } else if (comandoSpliteado[0].equalsIgnoreCase("duser")) {
                             conectedUsers.remove(comandoSpliteado[1]);
                             actualizarListaUsuarios();
-                        }else{
-                            actualizarChat(mensajeFormateado);
                         }
-                    }else{
-                        actualizarChat(mensajeFormateado);
                     }
                 }
             } catch (IOException e) {
@@ -101,13 +99,7 @@ public class ChatGUI extends JFrame {
     }
 
     private void mandarMensaje(String texto){
-        String textoEnvio = "";
-        if(firstTime){
-            textoEnvio = "CUser," + this.user + "|" + this.user + ": " + texto;
-            firstTime = false;
-        }else{
-            textoEnvio = this.user + ": " + texto;
-        }
+        String textoEnvio = "CUser," + this.user + "|" + this.user + ": " + texto;
         byte[] data = textoEnvio.getBytes();
 
         DatagramPacket paquete = new DatagramPacket(data, data.length, grupo, 9876);

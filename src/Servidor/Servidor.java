@@ -28,8 +28,6 @@ public class Servidor {
             int length = receivePacket.getLength();
             mensaje = new String(receivePacket.getData(), 0, length);
 
-            System.out.println("Mensaje recibido: " + mensaje);
-
             InetSocketAddress clientAddress = new InetSocketAddress(receivePacket.getAddress(), receivePacket.getPort());
 
             if (!clientes.contains(clientAddress)) {

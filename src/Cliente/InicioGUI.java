@@ -46,6 +46,7 @@ public class InicioGUI {
                 new ChatGUI(nombre);
             }else{
                 JOptionPane.showMessageDialog(panel, "No se ha introducido nombre, no se puede conectar...");
+                System.exit(0);
             }
         }
     }
