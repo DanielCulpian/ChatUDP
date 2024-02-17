@@ -25,6 +25,18 @@ public class ChatGUI extends JFrame {
     private Vector<String> ve;
     private MulticastSocket clientSocket;
     private InetAddress grupo;
+    
+    /**
+     *
+     * @param user El nombre del usuario propietario del chat<br/><br/>
+     *
+     * <b>Explicacion: <b/> El formulario recibe como parametro el nombre del usuario. No se tendrá constancia de su conexión hasta que envie un primer paaquete.<br/>Recibe como String
+     *             tanto los mensajes de chat como las actualizaciones de conexion y desconexion de usuarios (ver el filtro usado
+     *             tanto en el servidor como aqui).<br/><br/>
+     *
+     * <b>Finalizacion: </b> Manda un mensaje de desconexion al servidor indicando el nombre de usuario, el servidor se encargara
+     *             de notificar a todos los clientes vivos.
+     */
 
     public ChatGUI(String user) {
 
